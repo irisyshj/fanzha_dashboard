@@ -111,6 +111,25 @@ def not_found(error):
     return render_template("404.html"), 404
 
 
+@app.route("/api/health")
+def api_health():
+    """API 健康检查（用于调试）"""
+    try:
+        from routes.api import health_check
+        return health_check()
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e),
+            "config": {
+                "feishu_app_id": bool(Config.FEISHU_APP_ID),
+                "feishu_app_secret": bool(Config.FEISHU_APP_SECRET),
+                "base_id": bool(Config.BASE_ID),
+                "table_id": bool(Config.TABLE_ID),
+            }
+        }), 500
+
+
 @app.errorhandler(500)
 def internal_error(error):
     """500 错误页面"""

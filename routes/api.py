@@ -3,6 +3,42 @@ from routes import api_bp
 from services.cache import get_all_articles
 from models.comment import Comment
 from models.comment import db as comment_db
+from config import Config
+import os
+
+
+@api_bp.route("/health")
+def health_check():
+    """健康检查端点"""
+    try:
+        # 检查环境变量配置
+        config_status = {
+            "feishu_app_id": bool(Config.FEISHU_APP_ID),
+            "feishu_app_secret": bool(Config.FEISHU_APP_SECRET),
+            "base_id": bool(Config.BASE_ID),
+            "table_id": bool(Config.TABLE_ID),
+            "is_vercel": os.getenv("VERCEL") == "1",
+        }
+
+        # 尝试获取文章数量
+        try:
+            articles = get_all_articles()
+            articles_count = len(articles)
+        except Exception as e:
+            articles_count = 0
+            error_message = str(e)
+
+        return jsonify({
+            "status": "ok",
+            "config": config_status,
+            "articles_count": articles_count,
+            "error": error_message if 'error_message' in locals() else None
+        })
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
 
 
 @api_bp.route("/search")
