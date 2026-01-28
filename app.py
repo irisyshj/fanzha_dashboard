@@ -97,6 +97,19 @@ from routes import views_bp, api_bp
 app.register_blueprint(views_bp)
 app.register_blueprint(api_bp)
 
+
+# Vercel 环境：显式处理静态文件
+if os.getenv("VERCEL"):
+    from flask import send_from_directory, jsonify
+
+    @app.route('/static/<path:filename>')
+    def serve_static(filename):
+        """显式处理静态文件请求"""
+        try:
+            return send_from_directory('static', filename)
+        except Exception as e:
+            return jsonify({"error": f"Static file not found: {str(e)}"}), 404
+
 # 验证配置
 try:
     Config.validate_config()
