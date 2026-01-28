@@ -79,13 +79,18 @@ def format_article_text(text):
 # 注册过滤器
 app.jinja_env.filters['format_article'] = format_article_text
 
-# 确保 database 目录存在
-database_dir = os.path.join(os.path.dirname(__file__), "database")
-os.makedirs(database_dir, exist_ok=True)
-
-# 创建数据库表
-with app.app_context():
-    comment_db.create_all()
+# 创建数据库表（只在本地环境）
+if not os.getenv("VERCEL"):
+    # 本地环境：确保 database 目录存在并创建表
+    database_dir = os.path.join(os.path.dirname(__file__), "database")
+    os.makedirs(database_dir, exist_ok=True)
+    with app.app_context():
+        comment_db.create_all()
+else:
+    # Vercel 环境：在请求处理时按需创建表
+    @app.before_request
+    def create_tables():
+        comment_db.create_all()
 
 # 注册蓝图
 from routes import views_bp, api_bp

@@ -25,12 +25,14 @@ class Config:
     CACHE_DEFAULT_TIMEOUT = int(os.getenv("CACHE_DEFAULT_TIMEOUT", 300))  # 5分钟
 
     # 数据库配置 (评论功能)
-    # 使用绝对路径避免路径问题
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    SQLALCHEMY_DATABASE_URI = os.getenv(
-        "DATABASE_URL",
-        f"sqlite:///{os.path.join(basedir, 'database', 'comments.db')}"
-    )
+    # Vercel 环境使用临时目录，本地开发使用 database 目录
+    if os.getenv("VERCEL"):
+        # Vercel 环境：使用 /tmp 目录
+        SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/comments.db"
+    else:
+        # 本地开发环境
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(basedir, 'database', 'comments.db')}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # 飞书字段映射配置
