@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(python:*)",
+      "Bash(if not exist \"C:\\\\06_huang_practice\\\\05_feishu_blog\\\\database\" mkdir \"C:\\\\06_huang_practice\\\\05_feishu_blog\\\\database\")",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

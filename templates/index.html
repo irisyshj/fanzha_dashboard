@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}首页 - 反诈全国快讯解析{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 头部介绍 -->
+    <header class="hero">
+        <h1 class="hero-title">欢迎来到反诈全国快讯解析</h1>
+        <p class="hero-subtitle">汇聚资讯，迅速研判</p>
+    </header>
+
+    <!-- 错误提示 -->
+    {% if error %}
+    <div class="error-message">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
+
+    <!-- 文章列表 -->
+    <div class="articles-container">
+        {% if articles %}
+            <div class="articles-grid">
+                {% for article in articles %}
+                <article class="article-card" onclick="window.open('{{ url_for('views.article_detail', article_id=article.id) }}', '_blank')">
+                    <div class="article-card-header">
+                        <h2 class="article-title">{{ article.title }}</h2>
+                        <span class="article-date">{{ article.date[:10] if article.date else '' }}</span>
+                    </div>
+
+                    <!-- 信息分段卡片 -->
+                    <div class="article-info-sections">
+                        {% if article.scam_type %}
+                        <div class="info-section scam-type">
+                            <span class="section-label">诈骗类型</span>
+                            <span class="section-value">{{ article.scam_type }}</span>
+                        </div>
+                        {% endif %}
+
+                        <div class="info-section source">
+                            <span class="section-label">信息来源</span>
+                            <span class="section-value">{{ article.source }}</span>
+                        </div>
+
+                        {% if article.location %}
+                        <div class="info-section location">
+                            <span class="section-label">案件地点</span>
+                            <span class="section-value">{{ article.location }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <p class="article-preview">{{ article.preview }}</p>
+                    <div class="article-footer">
+                        <span class="read-more">阅读全文 &rarr;</span>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>暂无文章</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

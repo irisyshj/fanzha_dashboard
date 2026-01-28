@@ -1,0 +1,102 @@
+/* ============================
+   响应式设计
+   ============================ */
+
+/* 平板设备 */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+
+    .hero {
+        padding: 40px 0 24px;
+    }
+
+    .hero-title {
+        font-size: 32px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+    }
+
+    .articles-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .article-detail {
+        padding: 24px;
+    }
+
+    .article-detail .article-title {
+        font-size: 24px;
+    }
+
+    .article-content {
+        font-size: 16px;
+    }
+
+    .article-summary {
+        font-size: 16px;
+    }
+
+    .comments-section {
+        padding: 20px;
+    }
+
+    .search-header h1 {
+        font-size: 28px;
+    }
+
+    .search-box-container {
+        flex-direction: column;
+    }
+
+    .error-code {
+        font-size: 64px;
+    }
+
+    .error-title {
+        font-size: 24px;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 480px) {
+    .navbar .container {
+        height: 48px;
+    }
+
+    .logo-text {
+        font-size: 16px;
+    }
+
+    .nav-links {
+        gap: 16px;
+    }
+
+    .nav-link {
+        font-size: 12px;
+    }
+
+    .hero {
+        padding: 24px 0 16px;
+    }
+
+    .hero-title {
+        font-size: 24px;
+    }
+
+    .article-card {
+        padding: 16px;
+    }
+
+    .article-card .article-title {
+        font-size: 16px;
+    }
+
+    .main-content {
+        padding: 24px 0;
+    }
+}
